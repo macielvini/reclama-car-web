@@ -6,6 +6,12 @@ module.exports = {
       fontFamily: {
         sans: ["Inter", "sans-serif"],
       },
+      fontSize: {
+        sm: "14px",
+        base: "16px",
+        subtitle: "20px",
+        title: "24px",
+      },
       colors: {
         background: "#FFF",
         layer: "#F3F3F3",
@@ -20,6 +26,8 @@ module.exports = {
         "normal-relation": "12px",
         relation: "16px",
         "no-relation": "32px",
+        "body-padding": "24px",
+        "header-padding": "88px",
       },
     },
   },
