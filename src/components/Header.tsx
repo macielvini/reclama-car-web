@@ -1,0 +1,21 @@
+import { Link } from "react-router-dom";
+import logo from "../assets/LOGO.svg";
+import * as TablerIcons from "@tabler/icons-react";
+
+const Header = () => {
+  return (
+    <div className="fixed left-0 top-0 flex w-screen items-center justify-between p-body-padding shadow-md">
+      <span>
+        <TablerIcons.IconMenu2 />
+      </span>
+      <Link to={"/"}>
+        <img src={logo} alt="imagem do logo" className="" />
+      </Link>
+      <span>
+        <TablerIcons.IconSearch />
+      </span>
+    </div>
+  );
+};
+
+export default Header;
