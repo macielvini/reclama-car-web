@@ -51,7 +51,7 @@ const CarCard = () => {
   }
 
   return (
-    <div className="flex max-w-[224px] flex-col gap-close-relation overflow-hidden rounded-xl bg-layer object-contain shadow-sm">
+    <div className="flex min-w-[224px] snap-center flex-col gap-close-relation overflow-hidden rounded-xl bg-layer object-contain shadow-sm">
       <img
         src={image}
         alt="foto do carro"
