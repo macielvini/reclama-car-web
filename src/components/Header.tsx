@@ -4,7 +4,7 @@ import * as TablerIcons from "@tabler/icons-react";
 
 const Header = () => {
   return (
-    <div className="fixed left-0 top-0 flex w-screen items-center justify-between p-body-padding shadow-md">
+    <div className="fixed left-0 top-0 flex h-14 w-screen items-center justify-between px-body-padding shadow-md">
       <span>
         <TablerIcons.IconMenu2 />
       </span>
