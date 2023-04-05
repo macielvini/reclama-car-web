@@ -6,7 +6,7 @@ interface Props extends PropsWithChildren {
 
 const Container = ({ children }: Props) => {
   return (
-    <div className="flex flex-col gap-no-relation bg-background px-body-padding pt-header-padding leading-tight text-text-dark antialiased">
+    <div className="flex flex-col gap-no-relation bg-background px-body-padding pb-14 pt-header-padding leading-tight text-text-dark antialiased">
       {children}
     </div>
   );
