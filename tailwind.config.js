@@ -20,6 +20,7 @@ module.exports = {
         "accent-green": "#2A7221",
         "accent-yellow": "#E9C46A",
       },
+      borderWidth: { 1: "1px" },
       spacing: {
         "super-relation": "4px",
         "close-relation": "8px",
