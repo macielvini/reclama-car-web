@@ -12,4 +12,11 @@ async function signUp(body: SignUpParams) {
   return res.data;
 }
 
-export const authApi = { signUp };
+export type SignInParams = Omit<SignUpParams, "name" | "image">;
+
+async function signIn(body: SignInParams) {
+  const res = await api.post("/auth", body);
+  return res.data;
+}
+
+export const authApi = { signUp, signIn };
