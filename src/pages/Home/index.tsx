@@ -28,7 +28,7 @@ const Home = () => {
       </section>
       <section className="flex flex-col gap-relation">
         <p className="text-subtitle font-bold">Carros mais avaliados:</p>
-        <div className="flex touch-pan-x snap-x scroll-p-8 gap-relation overflow-x-auto scroll-smooth">
+        <div className="flex touch-pan-x snap-x gap-relation overflow-x-auto scroll-smooth">
           <CarCard />
           <CarCard />
           <CarCard />

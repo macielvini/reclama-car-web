@@ -32,7 +32,7 @@ const SignForm: FC<Props> = ({
 
       <button
         type="submit"
-        className="mt-10 w-full items-center rounded-md bg-accent-green p-4 text-left text-base font-bold text-background hover:brightness-90 hover:transition-all"
+        className="mt-10 w-full rounded-md bg-accent-green p-4 text-left text-center text-base font-bold text-background hover:brightness-90 hover:transition-all"
       >
         {button}
       </button>

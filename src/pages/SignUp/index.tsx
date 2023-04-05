@@ -1,19 +1,39 @@
 import { FormEvent, useState } from "react";
-import logo from "../../assets/LOGO.svg";
-import illustration from "../../assets/illustrations/online-review-rafiki.svg";
+import { useNavigate } from "react-router-dom";
+import { ApiResponseError } from "../../protocols";
+
 import SignForm from "../../components/Form/SignForm";
 import Input from "../../components/Form/Input";
 import Container from "../../components/Container";
 
+import { authApi } from "../../services/api/authApi";
+
+import illustration from "../../assets/illustrations/online-review-rafiki.svg";
+import logo from "../../assets/LOGO.svg";
+
 const SignUp = () => {
+  const navigate = useNavigate();
+
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [image, setImage] = useState<string>("");
 
-  function formSubmit(e: FormEvent) {
+  async function formSubmit(e: FormEvent) {
     e.preventDefault();
-    console.log("form submitted");
+
+    try {
+      await authApi.signUp({ email, image, name, password });
+      navigate("/");
+    } catch (error) {
+      const apiError = error as ApiResponseError;
+      if (apiError.response.data) {
+        console.log(apiError.response.data);
+      }
+
+      console.log(apiError.response.status);
+    }
   }
 
   return (
@@ -25,37 +45,44 @@ const SignUp = () => {
           button="Cadastrar"
           title="Criar minha conta"
           imagePath={illustration}
-          redirect={{ path: "/", text: "Já tem uma conta? Fazer login" }}
+          redirect={{ path: "/sign-in", text: "Já tem uma conta? Fazer login" }}
         >
           <Input
+            required
             setState={setName}
             value={name}
             type="text"
             placeholder="Nome"
           />
           <Input
-            setState={setName}
-            value={name}
+            required
+            setState={setImage}
+            value={image}
             type="url"
             placeholder="URL da imagem de perfil"
           />
           <Input
+            required
             setState={setEmail}
             value={email}
             type="text"
             placeholder="E-mail"
           />
           <Input
+            required
             setState={setPassword}
             value={password}
             type="password"
             placeholder="Senha"
+            minLength={6}
           />
           <Input
+            required
             setState={setConfirmPassword}
             value={confirmPassword}
             type="password"
             placeholder="Confirmar senha"
+            minLength={6}
             error={
               password != confirmPassword
                 ? "As senhas devem ser iguais!"
