@@ -8,7 +8,7 @@ import Container from "../../components/Container";
 
 import { authApi } from "../../services/api/authApi";
 
-import illustration from "../../assets/illustrations/online-review-rafiki.svg";
+import illustration from "../../assets/illustrations/mobile-login-rafiki.svg";
 import logo from "../../assets/LOGO.svg";
 
 const SignUp = () => {

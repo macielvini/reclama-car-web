@@ -1,5 +1,4 @@
 import { FC, FormEventHandler, FormHTMLAttributes } from "react";
-import * as Im from "react-icons/im";
 import { Link } from "react-router-dom";
 
 type Props = {
@@ -32,7 +31,7 @@ const SignForm: FC<Props> = ({
 
       <button
         type="submit"
-        className="mt-10 w-full rounded-md bg-accent-green p-4 text-left text-center text-base font-bold text-background hover:brightness-90 hover:transition-all"
+        className="mt-10 w-full rounded-md bg-accent-green p-4 text-center text-base font-bold text-background hover:brightness-90 hover:transition-all"
       >
         {button}
       </button>
