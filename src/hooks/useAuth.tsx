@@ -1,3 +1,5 @@
+import { AxiosResponse } from "axios";
+
 import {
   Dispatch,
   FC,
@@ -8,10 +10,10 @@ import {
   useEffect,
   useState,
 } from "react";
+import { ApiResponseError } from "../protocols";
+
 import { SignInParams, authApi } from "../services/api/authApi";
 import { api } from "../services/api/api";
-import { AxiosResponse } from "axios";
-import { ApiResponseError } from "../protocols";
 
 export type Credentials = {
   userId: string;
