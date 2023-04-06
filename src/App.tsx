@@ -1,7 +1,15 @@
+import AuthProvider from "./hooks/useAuth";
+import Routes from "./routes";
 import "./styles/global.css";
 
 function App() {
-  return <div className="text-2xl text-blue-500">App</div>;
+  return (
+    <>
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
+    </>
+  );
 }
 
 export default App;
