@@ -41,6 +41,9 @@ const Home = () => {
           <CarCard />
         </div>
       </section>
+      <span className="fixed bottom-body-padding right-body-padding rounded-full bg-accent-green p-relation shadow-md">
+        <TablerIcons.IconMessage2Plus color="white" size={32} />
+      </span>
     </Container>
   );
 };
