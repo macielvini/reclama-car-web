@@ -4,10 +4,10 @@ import * as TablerIcons from "@tabler/icons-react";
 import { useState } from "react";
 
 type Props = {
-  chosen?: string;
+  chosen?: string | number;
   placeholder: string;
   items: any[];
-  setState: (item: string) => void;
+  setState: (item: any) => void;
   fetcher: () => void;
 };
 
@@ -24,7 +24,7 @@ const DropDownInput = ({
     search!.length > 0 ? items.filter((item) => item.includes(search!)) : [];
 
   return (
-    <Popover.Root onOpenChange={() => fetcher()}>
+    <Popover.Root onOpenChange={(open) => open && fetcher()}>
       <Popover.Trigger className="flex w-full justify-between rounded-md bg-gray-100 px-4 py-4  ">
         {chosen ? (
           <span className="font-bold text-gray-500">{chosen}</span>
@@ -46,13 +46,13 @@ const DropDownInput = ({
             <ScrollArea.Viewport className="h-full w-full rounded">
               {search.length > 0 ? (
                 <ul>
-                  {filteredItems.map((tag) => (
+                  {filteredItems.map((item) => (
                     <div
                       className="border-b border-b-gray-300 py-4 text-sm leading-tight text-gray-500 hover:cursor-pointer"
-                      key={tag}
-                      onClick={() => setState(tag)}
+                      key={item}
+                      onClick={() => setState(item)}
                     >
-                      {tag}
+                      {item || item.year}
                     </div>
                   ))}
                 </ul>
@@ -62,9 +62,9 @@ const DropDownInput = ({
                     <div
                       className="border-b border-b-gray-300 py-4 text-sm leading-tight text-gray-500 hover:cursor-pointer"
                       key={item.id}
-                      onClick={() => setState(item.name)}
+                      onClick={() => setState(item)}
                     >
-                      {item.name}
+                      {item.name || item.model || item.year}
                     </div>
                   ))}
                 </ul>
