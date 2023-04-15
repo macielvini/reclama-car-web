@@ -30,6 +30,14 @@ module.exports = {
         "body-padding": "24px",
         "header-padding": "88px",
       },
+      animation: {
+        blink: "blink 1.5s steps(2) infinite",
+      },
+      keyframes: {
+        blink: {
+          "0%": { opacity: "0" },
+        },
+      },
     },
   },
   plugins: [],
