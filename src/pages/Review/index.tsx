@@ -6,6 +6,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { postReview } from "../../services/api/reviewsApi";
+import { toast } from "react-toastify";
 
 export type Car = {
   year: Year;
@@ -95,6 +96,10 @@ const Review = () => {
         rating,
         tags,
       });
+
+      toast.success("Avaliação criada com sucesso!", {
+        onClose: () => navigate("/"),
+      });
     } catch (err) {
       const error = err as AxiosError;
       console.log(error.response);
@@ -123,7 +128,11 @@ const Review = () => {
         <div>
           <ReviewHeader
             toggleState={toggleReview}
-            ready={review.review && review.title ? true : false}
+            ready={
+              review.review && review.title && (rating || tags.length > 0)
+                ? true
+                : false
+            }
             final={true}
             submitHandler={fetchReview}
           />
