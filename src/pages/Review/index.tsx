@@ -4,6 +4,8 @@ import WriteReview from "./WriteReview";
 import ReviewHeader from "./ReviewHeader";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
+import { postReview } from "../../services/api/reviewsApi";
 
 export type Car = {
   year: Year;
@@ -43,6 +45,20 @@ export type CreateReviewPages = {
   rating: boolean;
 };
 
+export type Rating = {
+  maintenance: number;
+  drivability: number;
+  comfort: number;
+  consumption: number;
+  general: number;
+};
+
+type Tag = {
+  id: string;
+  color: string;
+  name: string;
+};
+
 const Review = () => {
   const navigate = useNavigate();
 
@@ -62,10 +78,27 @@ const Review = () => {
     year: { id: "", year: 0 },
   });
   const [review, setReview] = useState<CreateReview>({ review: "", title: "" });
+  const [rating, setRating] = useState<Rating | undefined>(undefined);
+  const [tags, setTags] = useState<Tag[]>([]);
 
   function toggleReview() {
     setSelectCarPage(false);
     setShowReviewPage(true);
+  }
+
+  async function fetchReview() {
+    try {
+      await postReview({
+        carId: car.model.id,
+        text: review.review,
+        title: review.title,
+        rating,
+        tags,
+      });
+    } catch (err) {
+      const error = err as AxiosError;
+      console.log(error.response);
+    }
   }
 
   const { credentials } = useAuth();
@@ -91,10 +124,14 @@ const Review = () => {
           <ReviewHeader
             toggleState={toggleReview}
             ready={review.review && review.title ? true : false}
+            final={true}
+            submitHandler={fetchReview}
           />
           <WriteReview
-            setState={setReview}
+            setRating={setRating}
+            setReview={setReview}
             review={review}
+            rating={rating}
             car={car}
             toggleState={setShowReviewPage}
           />

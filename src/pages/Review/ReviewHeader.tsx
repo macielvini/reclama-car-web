@@ -6,9 +6,10 @@ type Props = {
   ready: boolean;
   final?: boolean;
   toggleState: () => void;
+  submitHandler?: () => void;
 };
 
-const ReviewHeader = ({ toggleState, ready, final }: Props) => {
+const ReviewHeader = ({ toggleState, ready, final, submitHandler }: Props) => {
   const navigate = useNavigate();
 
   return (
@@ -21,7 +22,7 @@ const ReviewHeader = ({ toggleState, ready, final }: Props) => {
             "bg-accent-blue text-white": ready,
           }
         )}
-        onClick={() => toggleState()}
+        onClick={final ? () => submitHandler!() : () => toggleState()}
       >
         {final ? "ENVIAR" : "PRÓXIMO"}
       </button>
