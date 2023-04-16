@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ChooseCar from "./ChooseCar";
 import WriteReview from "./WriteReview";
 import ReviewHeader from "./ReviewHeader";
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export type Car = {
   year: Year;
@@ -42,6 +44,8 @@ export type CreateReviewPages = {
 };
 
 const Review = () => {
+  const navigate = useNavigate();
+
   const [showSelectCarPage, setSelectCarPage] = useState(true);
   const [showReviewPage, setShowReviewPage] = useState(false);
 
@@ -63,6 +67,11 @@ const Review = () => {
     setSelectCarPage(false);
     setShowReviewPage(true);
   }
+
+  const { credentials } = useAuth();
+  useEffect(() => {
+    if (!credentials) navigate("/sign-in");
+  }, []);
 
   return (
     <div className="flex flex-col gap-no-relation bg-background px-body-padding pb-14 pt-10 leading-tight text-text-dark antialiased">
