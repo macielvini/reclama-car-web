@@ -9,9 +9,11 @@ import { authApi } from "../../services/api/authApi";
 
 import illustration from "../../assets/illustrations/online-review-rafiki.svg";
 import logo from "../../assets/LOGO.svg";
+import { useAuth } from "../../hooks/useAuth";
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const { signIn } = useAuth();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -19,7 +21,7 @@ const SignIn = () => {
   async function formSubmit(e: FormEvent) {
     e.preventDefault();
 
-    await authApi.signIn({ email, password });
+    await signIn({ email, password });
     setEmail("");
     setPassword("");
     navigate("/");
@@ -31,7 +33,7 @@ const SignIn = () => {
         <img src={logo} alt="imagem do logo" className="h-7" />
         <SignForm
           onSubmit={formSubmit}
-          button="Cadastrar"
+          button="Entrar"
           title="Entrar na minha conta"
           imagePath={illustration}
           redirect={{

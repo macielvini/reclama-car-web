@@ -16,7 +16,7 @@ export type SignInParams = Omit<SignUpParams, "name" | "image">;
 
 async function signIn(body: SignInParams) {
   const res = await api.post("/auth", body);
-  return res.data;
+  return res;
 }
 
 export const authApi = { signUp, signIn };
