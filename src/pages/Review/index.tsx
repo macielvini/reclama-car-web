@@ -116,7 +116,7 @@ const Review = () => {
       {showSelectCarPage && (
         <div>
           <ReviewHeader
-            toggleState={toggleReview}
+            onClickHandler={toggleReview}
             ready={
               car.model.id && car.manufacture.id && car.year.year ? true : false
             }
@@ -127,14 +127,13 @@ const Review = () => {
       {showReviewPage && (
         <div>
           <ReviewHeader
-            toggleState={toggleReview}
             ready={
               review.review && review.title && (rating || tags.length > 0)
                 ? true
                 : false
             }
             final={true}
-            submitHandler={fetchReview}
+            onClickHandler={fetchReview}
           />
           <WriteReview
             setRating={setRating}
