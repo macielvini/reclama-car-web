@@ -5,11 +5,10 @@ import SignForm from "../../components/Form/SignForm";
 import Input from "../../components/Form/Input";
 import Container from "../../components/Container";
 
-import { authApi } from "../../services/api/authApi";
-
 import illustration from "../../assets/illustrations/online-review-rafiki.svg";
 import logo from "../../assets/LOGO.svg";
 import { useAuth } from "../../hooks/useAuth";
+import { IconArrowLeft } from "@tabler/icons-react";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -29,7 +28,8 @@ const SignIn = () => {
 
   return (
     <>
-      <Container>
+      <div className="flex flex-col gap-no-relation bg-background px-body-padding pb-14 pt-8 leading-tight text-text-dark antialiased">
+        <IconArrowLeft size={30} onClick={() => navigate("/")} />
         <img src={logo} alt="imagem do logo" className="h-7" />
         <SignForm
           onSubmit={formSubmit}
@@ -57,7 +57,7 @@ const SignIn = () => {
             minLength={6}
           />
         </SignForm>
-      </Container>
+      </div>
     </>
   );
 };

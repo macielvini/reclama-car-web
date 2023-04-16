@@ -10,6 +10,7 @@ import { authApi } from "../../services/api/authApi";
 
 import illustration from "../../assets/illustrations/mobile-login-rafiki.svg";
 import logo from "../../assets/LOGO.svg";
+import { IconArrowLeft } from "@tabler/icons-react";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -38,7 +39,8 @@ const SignUp = () => {
 
   return (
     <>
-      <Container>
+      <div className="flex flex-col gap-no-relation bg-background px-body-padding pb-14 pt-8 leading-tight text-text-dark antialiased">
+        <IconArrowLeft size={30} onClick={() => navigate(-1)} />
         <img src={logo} alt="imagem do logo" className="h-7" />
         <SignForm
           onSubmit={formSubmit}
@@ -90,7 +92,7 @@ const SignUp = () => {
             }
           />
         </SignForm>
-      </Container>
+      </div>
     </>
   );
 };
