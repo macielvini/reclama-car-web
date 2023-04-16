@@ -1,6 +1,7 @@
 import CarCard from "../../components/CarCard";
 import Container from "../../components/Container";
 import Header from "../../components/Header";
+import WriteReviewButton from "../../components/WriteReviewButton";
 import { useAuth } from "../../hooks/useAuth";
 import OutlineSquareButton from "./OutlineSquareButton";
 import * as TablerIcons from "@tabler/icons-react";
@@ -32,7 +33,7 @@ const Home = () => {
           </section>
         </>
       )}
-
+      {credentials && <WriteReviewButton />}
       <section className="flex flex-col gap-relation">
         <p className="text-subtitle font-bold">Carros mais avaliados:</p>
         <div className="flex touch-pan-x snap-x gap-relation overflow-x-auto scroll-smooth">
