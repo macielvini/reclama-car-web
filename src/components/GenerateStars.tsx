@@ -20,7 +20,7 @@ const GenerateStars = ({ rating, size = 20 }: Props) => {
           <div
             key={index}
             className={clsx(
-              "cursor-pointer border-none transition-colors before:text-green-500",
+              "transition-color cursor-pointer border-none",
               {
                 "text-accent-yellow":
                   index === parsedRating + 1 && halfRating > 0,
@@ -34,16 +34,25 @@ const GenerateStars = ({ rating, size = 20 }: Props) => {
               { "text-accent-yellow ": index <= parsedRating }
             )}
           >
-            <TablerIcons.IconStarFilled
-              style={{
-                clipPath:
-                  halfRating > 0 && index === parsedRating + 1
-                    ? `inset(0 ${halfRating}% 0 0)`
-                    : "",
-              }}
-              className=""
-              size={size}
-            />
+            {halfRating > 0 && index === parsedRating + 1 ? (
+              <div className="relative">
+                <TablerIcons.IconStarFilled
+                  style={{
+                    clipPath: `inset(0 ${halfRating}% 0 0)`,
+                  }}
+                  size={size}
+                />
+                <TablerIcons.IconStarFilled
+                  style={{
+                    clipPath: `inset(0 0 0 ${100 - halfRating}%)`,
+                  }}
+                  className="absolute left-0 top-0 text-gray-400"
+                  size={size}
+                />
+              </div>
+            ) : (
+              <TablerIcons.IconStarFilled className="" size={size} />
+            )}
           </div>
         );
       })}
