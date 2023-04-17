@@ -1,6 +1,6 @@
 import React from "react";
 import { GenerateStarsFromNumber } from "../utils/GenerateStarsFromNumber";
-import GenerateStars from "../pages/Home/GenerateStars";
+import GenerateStars from "./GenerateStars";
 import clsx from "clsx";
 
 type Props = {

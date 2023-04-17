@@ -4,9 +4,10 @@ import clsx from "clsx";
 
 type Props = {
   rating: number;
+  size?: number;
 };
 
-const GenerateStars = ({ rating }: Props) => {
+const GenerateStars = ({ rating, size = 20 }: Props) => {
   const [stars, setStars] = useState(0);
   const parsedRating = Math.floor(rating);
   const halfRating = (1 - (rating - parsedRating)) * 100;
@@ -41,6 +42,7 @@ const GenerateStars = ({ rating }: Props) => {
                     : "",
               }}
               className=""
+              size={size}
             />
           </div>
         );
