@@ -16,9 +16,14 @@ type CreateReviewBody = {
     consumption: number;
     general: number;
   };
-  tags?: { id: string }[];
+  tags?: string[];
 };
 
 export async function postReview(body: CreateReviewBody) {
   return await api.post("/reviews", body);
+}
+
+export async function getAllTags() {
+  const res = await api.get("/reviews/tags");
+  return res.data;
 }

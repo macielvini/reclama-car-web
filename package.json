@@ -10,6 +10,7 @@
     "format": "prettier --write \"src/**/*.{js,jsx,tsx}\""
   },
   "dependencies": {
+    "@radix-ui/react-checkbox": "^1.0.3",
     "@radix-ui/react-popover": "1.0.5",
     "@radix-ui/react-scroll-area": "^1.0.3",
     "@tabler/icons-react": "^2.13.2",

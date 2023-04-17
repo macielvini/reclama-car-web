@@ -54,7 +54,7 @@ export type Rating = {
   general: number;
 };
 
-type Tag = {
+export type Tag = {
   id: string;
   color: string;
   name: string;
@@ -94,7 +94,7 @@ const Review = () => {
         text: review.review,
         title: review.title,
         rating,
-        tags,
+        tags: tags.map((tag) => tag.id),
       });
 
       toast.success("Avaliação criada com sucesso!", {
@@ -141,6 +141,8 @@ const Review = () => {
             review={review}
             rating={rating}
             car={car}
+            tags={tags}
+            setTags={setTags}
             toggleState={setShowReviewPage}
           />
         </div>

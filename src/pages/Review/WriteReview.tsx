@@ -1,7 +1,11 @@
-import { useNavigate } from "react-router-dom";
-import { Car, CreateReview, Rating } from ".";
+import { Car, CreateReview, Rating, Tag } from ".";
+import * as Checkbox from "@radix-ui/react-checkbox";
+import * as TablerIcons from "@tabler/icons-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { getUserReviewByCarId } from "../../services/api/reviewsApi";
+import {
+  getAllTags,
+  getUserReviewByCarId,
+} from "../../services/api/reviewsApi";
 import { AxiosError } from "axios";
 import StarRating from "./StarRating";
 
@@ -9,18 +13,30 @@ type Props = {
   rating: Rating | undefined;
   car: Car;
   review: CreateReview;
+  tags: Tag[];
   setReview: Dispatch<SetStateAction<CreateReview>>;
   setRating: Dispatch<SetStateAction<Rating | undefined>>;
+  setTags: Dispatch<SetStateAction<Tag[] | []>>;
+
   toggleState: Dispatch<SetStateAction<boolean>>;
 };
 
-const WriteReview = ({ car, review, setReview, setRating, rating }: Props) => {
+const WriteReview = ({
+  car,
+  review,
+  setReview,
+  setRating,
+  setTags,
+  tags,
+  rating,
+}: Props) => {
   const [hasRating, setHasRating] = useState<boolean | undefined>(undefined);
   const [maintenance, setMaintenance] = useState(0);
   const [drivability, setDrivability] = useState(0);
   const [comfort, setComfort] = useState(0);
   const [consumption, setConsumption] = useState(0);
   const [general, setGeneral] = useState(0);
+  const [fetchedTags, setFetchedTags] = useState<Tag[]>([]);
 
   async function fetchUserReviewByCarId() {
     try {
@@ -34,9 +50,31 @@ const WriteReview = ({ car, review, setReview, setRating, rating }: Props) => {
     }
   }
 
+  async function fetchTags() {
+    try {
+      const res = await getAllTags();
+      setFetchedTags(res);
+      // console.log(res);
+    } catch (err) {
+      const error = err as AxiosError;
+    }
+  }
+
+  function toggleTags(tag: Tag) {
+    let isSelected = tags.includes(tag);
+    if (isSelected) {
+      return setTags(tags.filter((t) => t.id !== tag.id));
+    }
+    setTags([...tags, tag]);
+  }
+
   useEffect(() => {
     fetchUserReviewByCarId();
   }, []);
+
+  useEffect(() => {
+    fetchTags();
+  }, [hasRating]);
 
   useEffect(() => {
     if (
@@ -104,6 +142,35 @@ const WriteReview = ({ car, review, setReview, setRating, rating }: Props) => {
               <p className="text-subtitle text-text-dark">Geral</p>
               <StarRating rating={general} setState={setGeneral} />
             </div>
+          </div>
+        </div>
+      )}
+      {fetchedTags.length > 0 && hasRating && (
+        <div>
+          <p className="mb-no-relation text-title font-bold">
+            Selecione uma ou mais categorias:
+          </p>
+          <div className="flex flex-wrap items-start gap-relation">
+            {fetchedTags.map((tag) => (
+              <Checkbox.Root
+                key={tag.id}
+                checked={tags.includes(tag)}
+                className={`flex items-center gap-close-relation rounded-md p-2 text-xs font-bold uppercase text-white drop-shadow-md transition-all`}
+                onCheckedChange={() => toggleTags(tag)}
+                style={{ background: tag.color }}
+              >
+                <div>
+                  {tags.includes(tag) ? (
+                    <Checkbox.Indicator>
+                      <TablerIcons.IconSquareRoundedCheckFilled />
+                    </Checkbox.Indicator>
+                  ) : (
+                    <TablerIcons.IconSquareRounded />
+                  )}
+                </div>
+                <p key={tag.id}>{tag.name}</p>
+              </Checkbox.Root>
+            ))}
           </div>
         </div>
       )}
