@@ -1,6 +1,7 @@
 import CarCard from "../../components/CarCard";
 import Container from "../../components/Container";
 import Header from "../../components/Header";
+import TopManufactureCard from "../../components/TopManufactureCard";
 import WriteReviewButton from "../../components/WriteReviewButton";
 import { useAuth } from "../../hooks/useAuth";
 import OutlineSquareButton from "./OutlineSquareButton";
@@ -44,6 +45,23 @@ const Home = () => {
           <CarCard />
           <CarCard />
           <CarCard />
+        </div>
+      </section>
+      <section className="flex flex-col gap-relation">
+        <p className="text-subtitle font-bold">Top 5 Marcas:</p>
+        <div className="flex touch-pan-x snap-x gap-relation overflow-x-auto scroll-smooth">
+          <TopManufactureCard
+            position={1}
+            image=""
+            name="Fabrica"
+            rating={4.7}
+          />
+          <TopManufactureCard
+            position={2}
+            image=""
+            name="Fabrica"
+            rating={4.3}
+          />
         </div>
       </section>
       {credentials && (
