@@ -10,6 +10,7 @@ import * as TablerIcons from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { getTopRatedManufactures } from "../../services/api/manufacturesApi";
 import { toast } from "react-toastify";
+import { getTopRatedCars } from "../../services/api/carsApi";
 
 type TopRatedManufacture = {
   image: string;
@@ -17,15 +18,55 @@ type TopRatedManufacture = {
   averageRating: number;
 };
 
+type Car = {
+  id: string;
+  image: string;
+  year: number;
+  model: string;
+  manufacture: string;
+  fuelType: string;
+  engineSize: string;
+  rating: {
+    general: number;
+    maintenance: number;
+    drivability: number;
+    comfort: number;
+    consumption: number;
+  };
+};
+
 const Home = () => {
   const { credentials } = useAuth();
   const [manufactures, setManufactures] = useState<TopRatedManufacture[]>([]);
+  const [cars, setCars] = useState<Car[]>([]);
 
   async function fetchTopRatedManufactures() {
     try {
       const res = (await getTopRatedManufactures()) as TopRatedManufacture[];
-      console.log(res);
       setManufactures(res.sort((a, b) => b.averageRating - a.averageRating));
+    } catch (err) {
+      toast.error("Erro inesperado");
+      const error = err as AxiosError;
+      console.log(error.response!.data as AxiosError);
+    }
+  }
+
+  async function fetchTopRatedCars() {
+    try {
+      const res = (await getTopRatedCars()) as Car[];
+      const avg = ({ rating, ...rest }: Car) => ({
+        ...rest,
+        avg:
+          (rating.comfort +
+            rating.consumption +
+            rating.drivability +
+            rating.general +
+            rating.maintenance) /
+          5,
+      });
+
+      console.log(res);
+      setCars(res.sort((a, b) => avg(b).avg - avg(a).avg));
     } catch (err) {
       toast.error("Erro inesperado");
       const error = err as AxiosError;
@@ -35,6 +76,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchTopRatedManufactures();
+    fetchTopRatedCars();
   }, []);
 
   return (
