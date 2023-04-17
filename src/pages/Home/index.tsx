@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { getTopRatedCars } from "../../services/api/carsApi";
 
 type TopRatedManufacture = {
+  id: string;
   image: string;
   name: string;
   averageRating: number;
@@ -23,7 +24,11 @@ type Car = {
   image: string;
   year: number;
   model: string;
-  manufacture: string;
+  manufacture: {
+    id: string;
+    name: string;
+    image: string;
+  };
   fuelType: string;
   engineSize: string;
   rating: {
@@ -111,9 +116,21 @@ const Home = () => {
       <section className="flex flex-col gap-relation">
         <p className="text-subtitle font-bold">Carros mais avaliados:</p>
         <div className="flex touch-pan-x snap-x gap-relation overflow-x-auto scroll-smooth">
-          <CarCard />
-          <CarCard />
-          <CarCard />
+          {cars
+            ? cars.map((car) => (
+                <CarCard
+                  key={car.id}
+                  engineSize={car.engineSize}
+                  fuelType={car.fuelType}
+                  id={car.id}
+                  image={car.image}
+                  manufacture={car.manufacture}
+                  model={car.model}
+                  rating={car.rating}
+                  year={car.year}
+                />
+              ))
+            : "Carregando..."}
         </div>
       </section>
       <section className="flex flex-col gap-relation">
@@ -125,6 +142,7 @@ const Home = () => {
               image={m.image}
               name={m.name}
               rating={m.averageRating}
+              key={m.id}
             />
           ))}
         </div>

@@ -14,14 +14,37 @@ const starsTranslation = {
   general: "Geral",
 };
 
-const CarCard = () => {
-  const { image, model, engine_size, year, fuel_type, Manufacture, _avg } = {
-    image:
-      "https://s2.glbimg.com/IYSuJ9WtejYJttUUgbuYv0ygT08=/0x0:940x628/924x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_cf9d035bf26b4646b105bd958f32089d/internal_photos/bs/2020/m/D/dAnnjJR4attGD3dcdUzg/2013-04-15-1.jpg",
-    model: "Celta",
-    engine_size: "1000",
-    year: "2012",
-    fuel_type: "FLEX",
+type Props = {
+  id: string;
+  image: string;
+  year: number;
+  model: string;
+  fuelType: string;
+  engineSize: string;
+  rating: {
+    general: number;
+    maintenance: number;
+    drivability: number;
+    comfort: number;
+    consumption: number;
+  };
+  manufacture: {
+    id: string;
+    name: string;
+    image: string;
+  };
+};
+
+const CarCard = ({
+  image,
+  model,
+  engineSize,
+  year,
+  fuelType,
+  rating,
+  manufacture,
+}: Props) => {
+  const { Manufacture, _avg } = {
     Manufacture: {
       name: "GM - Chevrolet",
       image:
@@ -60,17 +83,17 @@ const CarCard = () => {
       <div className="flex flex-col gap-close-relation px-4 pb-4">
         <section className="flex flex-col gap-super-relation">
           <p className="font-bold text-accent-green">
-            {`${model} ${(parseFloat(engine_size) / 1000).toFixed(
-              1
-            )} ${fuel_type} - ${year}`}
+            {`${model} ${parseFloat(engineSize).toFixed(1)}
+            ${fuelType} - ${year}`}
           </p>
           <span className="flex items-center gap-close-relation text-sm font-bold text-text-light">
             <img
-              src={Manufacture.image}
-              alt={Manufacture.name}
+              src={manufacture.image}
+              alt={manufacture.name}
               className="h-[18px]"
             />
-            <p>{Manufacture.name}</p>
+            {" - "}
+            <p>{manufacture.name}</p>
           </span>
         </section>
         <section>
