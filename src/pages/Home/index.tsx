@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import CarCard from "../../components/CarCard";
 import Container from "../../components/Container";
 import Header from "../../components/Header";
@@ -6,9 +7,35 @@ import WriteReviewButton from "../../components/WriteReviewButton";
 import { useAuth } from "../../hooks/useAuth";
 import OutlineSquareButton from "./OutlineSquareButton";
 import * as TablerIcons from "@tabler/icons-react";
+import { useEffect, useState } from "react";
+import { getTopRatedManufactures } from "../../services/api/manufacturesApi";
+import { toast } from "react-toastify";
+
+type TopRatedManufacture = {
+  image: string;
+  name: string;
+  averageRating: number;
+};
 
 const Home = () => {
   const { credentials } = useAuth();
+  const [manufactures, setManufactures] = useState<TopRatedManufacture[]>([]);
+
+  async function fetchTopRatedManufactures() {
+    try {
+      const res = (await getTopRatedManufactures()) as TopRatedManufacture[];
+      console.log(res);
+      setManufactures(res.sort((a, b) => b.averageRating - a.averageRating));
+    } catch (err) {
+      toast.error("Erro inesperado");
+      const error = err as AxiosError;
+      console.log(error.response!.data as AxiosError);
+    }
+  }
+
+  useEffect(() => {
+    fetchTopRatedManufactures();
+  }, []);
 
   return (
     <Container>
@@ -50,18 +77,14 @@ const Home = () => {
       <section className="flex flex-col gap-relation">
         <p className="text-subtitle font-bold">Top 5 Marcas:</p>
         <div className="flex touch-pan-x snap-x gap-relation overflow-x-auto scroll-smooth">
-          <TopManufactureCard
-            position={1}
-            image=""
-            name="Fabrica"
-            rating={4.7}
-          />
-          <TopManufactureCard
-            position={2}
-            image=""
-            name="Fabrica"
-            rating={4.3}
-          />
+          {manufactures.map((m, i) => (
+            <TopManufactureCard
+              position={i + 1}
+              image={m.image}
+              name={m.name}
+              rating={m.averageRating}
+            />
+          ))}
         </div>
       </section>
       {credentials && (

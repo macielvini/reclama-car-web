@@ -1,5 +1,4 @@
 import React from "react";
-import { GenerateStarsFromNumber } from "../utils/GenerateStarsFromNumber";
 import GenerateStars from "./GenerateStars";
 import clsx from "clsx";
 
@@ -14,7 +13,7 @@ const TopManufactureCard = ({ position, rating = 0, image, name }: Props) => {
   return (
     <div
       className={clsx(
-        "relative flex h-[148px] w-[156px] flex-col items-center justify-center gap-close-relation rounded-md p-close-relation text-text-dark drop-shadow",
+        "relative flex h-[148px] min-w-[156px] flex-col items-center justify-center gap-close-relation rounded-md border-1 border-accent-green p-close-relation text-text-dark drop-shadow",
         { " bg-accent-green text-white": position === 1 },
         { "bg-layer": position > 1 || position === undefined }
       )}
