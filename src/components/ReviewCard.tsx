@@ -4,7 +4,7 @@ import HorizontalSeparator from "./HorizontalSeparator";
 import GenerateStars from "./GenerateStars";
 import { useState } from "react";
 
-type Props = {
+export type ReviewProps = {
   id: string;
   user: {
     id: string;
@@ -20,9 +20,11 @@ type Props = {
     };
   };
   tags: {
-    id: string;
-    name: string;
-    color: string;
+    tag: {
+      id: string;
+      name: string;
+      color: string;
+    };
   }[];
   reactions: {
     count: number;
@@ -41,7 +43,6 @@ type Props = {
 };
 
 const ReviewCard = ({
-  id,
   user,
   car,
   createdAt,
@@ -50,7 +51,7 @@ const ReviewCard = ({
   text,
   Rating,
   reactions,
-}: Props) => {
+}: ReviewProps) => {
   const [reacted, setReacted] = useState(reactions.reacted);
   const numberFormatter = new Intl.NumberFormat("en", { notation: "compact" });
 
@@ -64,7 +65,7 @@ const ReviewCard = ({
       5;
 
   return (
-    <div key={id} className="min-h-[100px] w-full rounded-lg bg-layer p-4">
+    <div className="min-h-[100px] w-full rounded-lg bg-layer p-4">
       <div className="flex items-center gap-close-relation">
         <img
           src={user.image}
@@ -86,7 +87,7 @@ const ReviewCard = ({
         </div>
       ) : (
         <div className="flex gap-x-close-relation">
-          {tags.map((tag) => (
+          {tags.map(({ tag }) => (
             <p
               key={tag.id}
               style={{ background: tag.color }}
