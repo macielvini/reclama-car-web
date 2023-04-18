@@ -19,6 +19,7 @@ module.exports = {
         "text-light": "#666",
         "accent-green": "#2A7221",
         "accent-yellow": "#E9C46A",
+        "accent-blue": "#2351C5",
       },
       borderWidth: { 1: "1px" },
       spacing: {
@@ -29,6 +30,14 @@ module.exports = {
         "no-relation": "32px",
         "body-padding": "24px",
         "header-padding": "88px",
+      },
+      animation: {
+        blink: "blink 1.5s steps(2) infinite",
+      },
+      keyframes: {
+        blink: {
+          "0%": { opacity: "0" },
+        },
       },
     },
   },

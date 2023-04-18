@@ -44,6 +44,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
       api.defaults.headers.authorization = `Bearer ${res.data.token}`;
       setCredentials(res.data);
     } catch (error) {
+      console.log(error);
       const apiError = error as ApiResponseError;
       if (apiError.response.data) {
         console.log(apiError.response.data);

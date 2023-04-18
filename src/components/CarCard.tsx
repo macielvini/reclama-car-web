@@ -1,12 +1,6 @@
-import * as TablerIcons from "@tabler/icons-react";
-import { GenerateStarsFromNumber } from "../utils/GenerateStarsFromNumber";
+import GenerateStars from "./GenerateStars";
 
-type Rating = {
-  name: string;
-  stars: JSX.Element;
-};
-
-const starsTranslation = {
+const ratingItemsTranslation = {
   maintenance: "Manutenção",
   drivability: "Direção",
   comfort: "Conforto",
@@ -14,44 +8,40 @@ const starsTranslation = {
   general: "Geral",
 };
 
-const CarCard = () => {
-  const { image, model, engine_size, year, fuel_type, Manufacture, _avg } = {
-    image:
-      "https://s2.glbimg.com/IYSuJ9WtejYJttUUgbuYv0ygT08=/0x0:940x628/924x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_cf9d035bf26b4646b105bd958f32089d/internal_photos/bs/2020/m/D/dAnnjJR4attGD3dcdUzg/2013-04-15-1.jpg",
-    model: "Celta",
-    engine_size: "1000",
-    year: "2012",
-    fuel_type: "FLEX",
-    Manufacture: {
-      name: "GM - Chevrolet",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Chevrolet-logo.png/2560px-Chevrolet-logo.png",
-    },
-    _avg: {
-      maintenance: "4700",
-      drivability: "4230",
-      comfort: "4199",
-      consumption: "3250",
-      general: "4000",
-    },
+type Props = {
+  id: string;
+  image: string;
+  year: number;
+  model: string;
+  fuelType: string;
+  engineSize: string;
+  rating: {
+    general: number;
+    maintenance: number;
+    drivability: number;
+    comfort: number;
+    consumption: number;
   };
-  type ObjectKey = keyof typeof _avg | keyof typeof starsTranslation;
+  manufacture: {
+    id: string;
+    name: string;
+    image: string;
+  };
+};
 
-  function starsAsRating(): Rating[] {
-    let elements: Rating[] = [];
-
-    for (const key in _avg) {
-      const rating = parseFloat(_avg[key as ObjectKey]);
-      const stars = GenerateStarsFromNumber(rating / 1000);
-
-      elements.push({ name: key, stars: stars! });
-    }
-
-    return elements;
-  }
+const CarCard = ({
+  image,
+  model,
+  engineSize,
+  year,
+  fuelType,
+  rating,
+  manufacture,
+}: Props) => {
+  type ObjectKey = keyof typeof rating | keyof typeof ratingItemsTranslation;
 
   return (
-    <div className="flex min-w-[224px] snap-center flex-col gap-close-relation overflow-hidden rounded-xl bg-layer object-contain shadow-sm">
+    <div className="flex min-w-[224px] snap-center flex-col gap-close-relation overflow-hidden rounded-xl bg-white object-contain drop-shadow-md">
       <img
         src={image}
         alt="foto do carro"
@@ -60,31 +50,33 @@ const CarCard = () => {
       <div className="flex flex-col gap-close-relation px-4 pb-4">
         <section className="flex flex-col gap-super-relation">
           <p className="font-bold text-accent-green">
-            {`${model} ${(parseFloat(engine_size) / 1000).toFixed(
-              1
-            )} ${fuel_type} - ${year}`}
+            {`${model} ${parseFloat(engineSize).toFixed(1)}`}
+            <br />
+            {`${fuelType} - ${year}`}
           </p>
           <span className="flex items-center gap-close-relation text-sm font-bold text-text-light">
             <img
-              src={Manufacture.image}
-              alt={Manufacture.name}
+              src={manufacture.image}
+              alt={manufacture.name}
               className="h-[18px]"
             />
-            <p>{Manufacture.name}</p>
+            {" - "}
+            <p>{manufacture.name}</p>
           </span>
         </section>
         <section>
-          {starsAsRating().map((item, index) => (
-            <div
-              className="grid grid-cols-2 gap-close-relation text-text-light"
-              key={index + item.name}
-            >
-              <p>{starsTranslation[item.name as ObjectKey]}</p>
-              <div className="flex gap-super-relation text-accent-yellow">
-                {item.stars}
+          {Object.values(rating).map((value, index) => {
+            const name: any = Object.keys(rating)[index];
+            return (
+              <div
+                className="grid grid-cols-2 gap-close-relation text-text-light"
+                key={index + name}
+              >
+                <p>{ratingItemsTranslation[name as ObjectKey]}</p>
+                <GenerateStars rating={value} size={16} />
               </div>
-            </div>
-          ))}
+            );
+          })}
         </section>
       </div>
     </div>
