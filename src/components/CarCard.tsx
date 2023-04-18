@@ -1,12 +1,6 @@
-import * as TablerIcons from "@tabler/icons-react";
-import { GenerateStarsFromNumber } from "../utils/GenerateStarsFromNumber";
+import GenerateStars from "./GenerateStars";
 
-type Rating = {
-  name: string;
-  stars: JSX.Element;
-};
-
-const starsTranslation = {
+const ratingItemsTranslation = {
   maintenance: "Manutenção",
   drivability: "Direção",
   comfort: "Conforto",
@@ -44,37 +38,10 @@ const CarCard = ({
   rating,
   manufacture,
 }: Props) => {
-  const { Manufacture, _avg } = {
-    Manufacture: {
-      name: "GM - Chevrolet",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Chevrolet-logo.png/2560px-Chevrolet-logo.png",
-    },
-    _avg: {
-      maintenance: "4700",
-      drivability: "4230",
-      comfort: "4199",
-      consumption: "3250",
-      general: "4000",
-    },
-  };
-  type ObjectKey = keyof typeof _avg | keyof typeof starsTranslation;
-
-  function starsAsRating(): Rating[] {
-    let elements: Rating[] = [];
-
-    for (const key in _avg) {
-      const rating = parseFloat(_avg[key as ObjectKey]);
-      const stars = GenerateStarsFromNumber(rating / 1000);
-
-      elements.push({ name: key, stars: stars! });
-    }
-
-    return elements;
-  }
+  type ObjectKey = keyof typeof rating | keyof typeof ratingItemsTranslation;
 
   return (
-    <div className="flex min-w-[224px] snap-center flex-col gap-close-relation overflow-hidden rounded-xl bg-layer object-contain shadow-sm">
+    <div className="flex min-w-[224px] snap-center flex-col gap-close-relation overflow-hidden rounded-xl bg-white object-contain drop-shadow-md">
       <img
         src={image}
         alt="foto do carro"
@@ -83,8 +50,9 @@ const CarCard = ({
       <div className="flex flex-col gap-close-relation px-4 pb-4">
         <section className="flex flex-col gap-super-relation">
           <p className="font-bold text-accent-green">
-            {`${model} ${parseFloat(engineSize).toFixed(1)}
-            ${fuelType} - ${year}`}
+            {`${model} ${parseFloat(engineSize).toFixed(1)}`}
+            <br />
+            {`${fuelType} - ${year}`}
           </p>
           <span className="flex items-center gap-close-relation text-sm font-bold text-text-light">
             <img
@@ -97,17 +65,18 @@ const CarCard = ({
           </span>
         </section>
         <section>
-          {starsAsRating().map((item, index) => (
-            <div
-              className="grid grid-cols-2 gap-close-relation text-text-light"
-              key={index + item.name}
-            >
-              <p>{starsTranslation[item.name as ObjectKey]}</p>
-              <div className="flex gap-super-relation text-accent-yellow">
-                {item.stars}
+          {Object.values(rating).map((value, index) => {
+            const name: any = Object.keys(rating)[index];
+            return (
+              <div
+                className="grid grid-cols-2 gap-close-relation text-text-light"
+                key={index + name}
+              >
+                <p>{ratingItemsTranslation[name as ObjectKey]}</p>
+                <GenerateStars rating={value} size={16} />
               </div>
-            </div>
-          ))}
+            );
+          })}
         </section>
       </div>
     </div>

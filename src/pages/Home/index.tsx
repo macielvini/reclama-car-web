@@ -85,74 +85,76 @@ const Home = () => {
   }, []);
 
   return (
-    <Container>
+    <>
       <Header />
-      {!credentials && (
-        <>
-          <section className="flex flex-col gap-close-relation text-center">
-            <p className="text-title font-bold">
-              O Reclama Car te aproxima de quem vive o carro!
-            </p>
-            <p className="text-sm ">
-              Compartilhe suas experiências e avaliações para ajudar outros
-              usuários. Ajude-nos a tornar mais transparente o processo de
-              escolha de um carro
-            </p>
-          </section>
-          <section className="flex justify-center gap-5">
-            <OutlineSquareButton path="/" icon={<TablerIcons.IconSearch />}>
-              Pesquisar carro ou fabricante
-            </OutlineSquareButton>
-            <OutlineSquareButton
-              path="/reviews/new"
-              icon={<TablerIcons.IconMessage />}
-            >
-              Deixar uma avaliação
-            </OutlineSquareButton>
-          </section>
-        </>
-      )}
-      {credentials && <WriteReviewButton />}
-      <section className="flex flex-col gap-relation">
-        <p className="text-subtitle font-bold">Carros mais avaliados:</p>
-        <div className="flex touch-pan-x snap-x gap-relation overflow-x-auto scroll-smooth">
-          {cars
-            ? cars.map((car) => (
-                <CarCard
-                  key={car.id}
-                  engineSize={car.engineSize}
-                  fuelType={car.fuelType}
-                  id={car.id}
-                  image={car.image}
-                  manufacture={car.manufacture}
-                  model={car.model}
-                  rating={car.rating}
-                  year={car.year}
-                />
-              ))
-            : "Carregando..."}
-        </div>
-      </section>
-      <section className="flex flex-col gap-relation">
-        <p className="text-subtitle font-bold">Top 5 Marcas:</p>
-        <div className="flex touch-pan-x snap-x gap-relation overflow-x-auto scroll-smooth">
-          {manufactures.map((m, i) => (
-            <TopManufactureCard
-              position={i + 1}
-              image={m.image}
-              name={m.name}
-              rating={m.averageRating}
-              key={m.id}
-            />
-          ))}
-        </div>
-      </section>
-      {credentials && (
-        <span className="fixed bottom-body-padding right-body-padding rounded-full bg-accent-green p-relation shadow-md">
-          <TablerIcons.IconMessage2Plus color="white" size={32} />
-        </span>
-      )}
-    </Container>
+      <div className="mx-body-padding flex flex-col gap-no-relation bg-background pb-14 pt-header-padding leading-tight text-text-dark antialiased">
+        {!credentials && (
+          <>
+            <section className="flex flex-col gap-close-relation text-center">
+              <p className="text-title font-bold">
+                O Reclama Car te aproxima de quem vive o carro!
+              </p>
+              <p className="text-sm ">
+                Compartilhe suas experiências e avaliações para ajudar outros
+                usuários. Ajude-nos a tornar mais transparente o processo de
+                escolha de um carro
+              </p>
+            </section>
+            <section className="flex justify-center gap-5">
+              <OutlineSquareButton path="/" icon={<TablerIcons.IconSearch />}>
+                Pesquisar carro ou fabricante
+              </OutlineSquareButton>
+              <OutlineSquareButton
+                path="/reviews/new"
+                icon={<TablerIcons.IconMessage />}
+              >
+                Deixar uma avaliação
+              </OutlineSquareButton>
+            </section>
+          </>
+        )}
+        {credentials && <WriteReviewButton />}
+        <section className="flex flex-col gap-relation">
+          <p className="text-subtitle font-bold">Carros mais avaliados:</p>
+          <div className="flex touch-pan-x snap-x gap-relation overflow-x-scroll scroll-smooth pb-6 pl-2">
+            {cars
+              ? cars.map((car) => (
+                  <CarCard
+                    key={car.id}
+                    engineSize={car.engineSize}
+                    fuelType={car.fuelType}
+                    id={car.id}
+                    image={car.image}
+                    manufacture={car.manufacture}
+                    model={car.model}
+                    rating={car.rating}
+                    year={car.year}
+                  />
+                ))
+              : "Carregando..."}
+          </div>
+        </section>
+        <section className="flex flex-col gap-relation">
+          <p className="text-subtitle font-bold">Top 5 Marcas:</p>
+          <div className="flex touch-pan-x snap-x gap-relation overflow-x-auto scroll-smooth pb-6 pl-2">
+            {manufactures.map((m, i) => (
+              <TopManufactureCard
+                position={i + 1}
+                image={m.image}
+                name={m.name}
+                rating={m.averageRating}
+                key={m.id}
+              />
+            ))}
+          </div>
+        </section>
+        {credentials && (
+          <span className="fixed bottom-body-padding right-body-padding rounded-full bg-accent-green p-relation shadow-md">
+            <TablerIcons.IconMessage2Plus color="white" size={32} />
+          </span>
+        )}
+      </div>
+    </>
   );
 };
 
