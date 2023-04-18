@@ -87,7 +87,7 @@ const Home = () => {
   return (
     <>
       <Header />
-      <div className="mx-body-padding flex flex-col gap-no-relation bg-background pb-14 pt-header-padding leading-tight text-text-dark antialiased">
+      <div className="flex flex-col gap-no-relation bg-background px-body-padding pb-14 pt-header-padding leading-tight text-text-dark antialiased">
         {!credentials && (
           <>
             <section className="flex flex-col gap-close-relation text-center">
