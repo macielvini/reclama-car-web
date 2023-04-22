@@ -1,16 +1,21 @@
+import { Link } from "react-router-dom";
 import { AxiosError } from "axios";
+import dayjs from "dayjs";
+import * as TablerIcons from "@tabler/icons-react";
+import { toast } from "react-toastify";
+import { useAuth } from "../../hooks/useAuth";
 import CarCard from "../../components/CarCard";
-import Container from "../../components/Container";
 import Header from "../../components/Header";
 import TopManufactureCard from "../../components/TopManufactureCard";
 import WriteReviewButton from "../../components/WriteReviewButton";
-import { useAuth } from "../../hooks/useAuth";
 import OutlineSquareButton from "./OutlineSquareButton";
-import * as TablerIcons from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { getTopRatedManufactures } from "../../services/api/manufacturesApi";
-import { toast } from "react-toastify";
 import { getTopRatedCars } from "../../services/api/carsApi";
+import HorizontalSeparator from "../../components/HorizontalSeparator";
+import Review from "../Review";
+import ReviewCard, { ReviewProps } from "../../components/ReviewCard";
+import { getTrendingReviews } from "../../services/api/reviewsApi";
 
 type TopRatedManufacture = {
   id: string;
@@ -44,6 +49,9 @@ const Home = () => {
   const { credentials } = useAuth();
   const [manufactures, setManufactures] = useState<TopRatedManufacture[]>([]);
   const [cars, setCars] = useState<Car[]>([]);
+  const [trendingReviews, setTrendingReviews] = useState<ReviewProps[]>([]);
+
+  const numberFormatter = new Intl.NumberFormat("en", { notation: "compact" });
 
   async function fetchTopRatedManufactures() {
     try {
@@ -70,8 +78,18 @@ const Home = () => {
           5,
       });
 
-      console.log(res);
       setCars(res.sort((a, b) => avg(b).avg - avg(a).avg));
+    } catch (err) {
+      toast.error("Erro inesperado");
+      const error = err as AxiosError;
+      console.log(error.response!.data as AxiosError);
+    }
+  }
+
+  async function fetchTrendingReviews() {
+    try {
+      const res = await getTrendingReviews();
+      setTrendingReviews(res);
     } catch (err) {
       toast.error("Erro inesperado");
       const error = err as AxiosError;
@@ -82,6 +100,7 @@ const Home = () => {
   useEffect(() => {
     fetchTopRatedManufactures();
     fetchTopRatedCars();
+    fetchTrendingReviews();
   }, []);
 
   return (
@@ -148,10 +167,35 @@ const Home = () => {
             ))}
           </div>
         </section>
+        <section className="m-auto flex w-full max-w-[500px] flex-col items-center">
+          <p className="mb-relation w-full text-subtitle font-bold md:text-center">
+            Avaliações mais relevantes:
+          </p>
+          <div className="flex w-full flex-col items-center gap-6">
+            {trendingReviews.length > 0
+              ? trendingReviews.map((review) => (
+                  <ReviewCard
+                    key={review.id}
+                    car={review.car}
+                    createdAt={review.createdAt}
+                    id={review.id}
+                    tags={review.tags}
+                    reactions={review.reactions}
+                    text={review.text}
+                    title={review.title}
+                    user={review.user}
+                    Rating={review.Rating}
+                  />
+                ))
+              : "Carregando..."}
+          </div>
+        </section>
         {credentials && (
-          <span className="fixed bottom-body-padding right-body-padding rounded-full bg-accent-green p-relation shadow-md">
-            <TablerIcons.IconMessage2Plus color="white" size={32} />
-          </span>
+          <Link to={"/reviews/new"}>
+            <span className="fixed bottom-body-padding right-body-padding rounded-full bg-accent-green p-relation shadow-md">
+              <TablerIcons.IconMessage2Plus color="white" size={32} />
+            </span>
+          </Link>
         )}
       </div>
     </>

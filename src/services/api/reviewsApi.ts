@@ -27,3 +27,8 @@ export async function getAllTags() {
   const res = await api.get("/reviews/tags");
   return res.data;
 }
+
+export async function getTrendingReviews() {
+  const res = await api.get("/reviews/trending");
+  return res.data;
+}

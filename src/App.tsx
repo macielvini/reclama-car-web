@@ -3,6 +3,7 @@ import AuthProvider from "./hooks/useAuth";
 import Routes from "./routes";
 import "./styles/global.css";
 import "react-toastify/dist/ReactToastify.css";
+import "./libs/dayjs";
 
 function App() {
   return (
